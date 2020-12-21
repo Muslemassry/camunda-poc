@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="camunda-poc-process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1fp17al</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1fp17al" sourceRef="StartEvent_1" targetRef="Activity_1uze6nn" />
+    <bpmn:endEvent id="EndEvent_0x6ir2l">
+      <bpmn:incoming>Flow_1hytmsv</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1lrhxeh" sourceRef="Event_0iyo1x9" targetRef="Activity_0ntsgst" />
+    <bpmn:intermediateCatchEvent id="Event_0iyo1x9" name="wait 2 seconds">
+      <bpmn:incoming>Flow_11w94sh</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lrhxeh</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1g99fdx">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="Activity_0ntsgst" name="Contcat_age" camunda:delegateExpression="#{ageConcatinatorAdapter}">
+      <bpmn:incoming>Flow_1lrhxeh</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zq8cv8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0zq8cv8" sourceRef="Activity_0ntsgst" targetRef="Event_0kxb4px" />
+    <bpmn:serviceTask id="Activity_1uze6nn" name="Set_Age" camunda:delegateExpression="#{ageSetterAdapter}">
+      <bpmn:incoming>SequenceFlow_1fp17al</bpmn:incoming>
+      <bpmn:outgoing>Flow_11w94sh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_11w94sh" sourceRef="Activity_1uze6nn" targetRef="Event_0iyo1x9" />
+    <bpmn:intermediateCatchEvent id="Event_0kxb4px" name="wait 2 seconds">
+      <bpmn:incoming>Flow_0zq8cv8</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hytmsv</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1ah6yle">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_1hytmsv" sourceRef="Event_0kxb4px" targetRef="EndEvent_0x6ir2l" />
+    <bpmn:textAnnotation id="TextAnnotation_06hbacg">
+      <bpmn:text>Get Age from rest searvice</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_062ldsw" sourceRef="Activity_1uze6nn" targetRef="TextAnnotation_06hbacg" />
+    <bpmn:textAnnotation id="TextAnnotation_14qm49e">
+      <bpmn:text>Append name to age from service</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0vwyeyf" sourceRef="Activity_0ntsgst" targetRef="TextAnnotation_14qm49e" />
+  </bpmn:process>
+  <bpmn:message id="Message_0qdxg8p" name="Final_Message_VAL" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="camunda-poc-process">
+      <bpmndi:BPMNEdge id="Flow_11w94sh_di" bpmnElement="Flow_11w94sh">
+        <di:waypoint x="420" y="117" />
+        <di:waypoint x="502" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zq8cv8_di" bpmnElement="Flow_0zq8cv8">
+        <di:waypoint x="720" y="117" />
+        <di:waypoint x="882" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lrhxeh_di" bpmnElement="Flow_1lrhxeh">
+        <di:waypoint x="538" y="117" />
+        <di:waypoint x="620" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1fp17al_di" bpmnElement="SequenceFlow_1fp17al">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="320" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hytmsv_di" bpmnElement="Flow_1hytmsv">
+        <di:waypoint x="918" y="117" />
+        <di:waypoint x="1062" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="EndEvent_0x6ir2l">
+        <dc:Bounds x="1062" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0o8vevu_di" bpmnElement="Event_0iyo1x9">
+        <dc:Bounds x="502" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="484" y="142" width="73" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ntsgst_di" bpmnElement="Activity_0ntsgst">
+        <dc:Bounds x="620" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1uze6nn_di" bpmnElement="Activity_1uze6nn">
+        <dc:Bounds x="320" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_06hbacg_di" bpmnElement="TextAnnotation_06hbacg">
+        <dc:Bounds x="350" y="303" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_14qm49e_di" bpmnElement="TextAnnotation_14qm49e">
+        <dc:Bounds x="630" y="296" width="100" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0kxb4px_di" bpmnElement="Event_0kxb4px">
+        <dc:Bounds x="882" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="864" y="142" width="73" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_062ldsw_di" bpmnElement="Association_062ldsw">
+        <di:waypoint x="370" y="157" />
+        <di:waypoint x="370" y="303" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0vwyeyf_di" bpmnElement="Association_0vwyeyf">
+        <di:waypoint x="670" y="157" />
+        <di:waypoint x="670" y="296" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
